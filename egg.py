@@ -13,7 +13,7 @@ EN = {"lang.name": "EN", "lang.set.tip": "Choose a language：\n[1] English\n[2]
       "error.bad_input": "\033[31mInvalid input\033[0m\n", "error.game.floor.too_low": "Then better go to hell\n",
       "error.game.floor.one_to_one": "You dropped the egg from the 1st floor, the egg landed on the 1st floor, the gravitational potential energy decreased by 0 J\n",
       "error.game.floor.too_high": "It's better to go to heaven\n",
-      "egg.hello": "\033[32mEgg Throwing Game\033[0m\nAuthor: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n\n",
+      "egg.hello": "Egg Throwing Game\nAuthor: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n\n",
       "egg.help": "h|help help\ns|start start game\nr|query query data (in-game)\na|analyse query statistics\nc|cls clear screen\nq|quit quit\nl|language language\n",
       "egg.help.short": "s|start start game\nh|help help\n", "analyse.game": "Win %d/%d games in total",
       "analyse.egg": "Total %d/%d eggs lost", "analyse.step": "Average performed %.2f steps",
@@ -32,7 +32,7 @@ ZH_CN = {"lang.name": "ZH_CN", "lang.set.tip": "请选择语言：\n[1] English\
          "error.bad_input": "\033[31m无效的输入\033[0m\n", "error.game.floor.too_low": "那最好是下地狱去\n",
          "error.game.floor.one_to_one": "你从 1 楼丢下了鸡蛋, 鸡蛋落在了 1 楼, 重力势能减少了 0 J\n",
          "error.game.floor.too_high": "那最好是上天堂去\n",
-         "egg.hello": "\033[32m丢鸡蛋游戏\033[0m\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n\n",
+         "egg.hello": "丢鸡蛋游戏\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n\n",
          "egg.help": "h|help 帮助\ns|start 开始游戏\nr|query 查询数据(游戏内)\na|analyse 查询统计数据\nc|cls 清屏\nq|quit 退出\nl|language 语言\n",
          "egg.help.short": "s|start 开始游戏\nh|help 帮助\n", "analyse.game": "共赢得 %d/%d 盘游戏",
          "analyse.egg": "共损失 %d/%d 个鸡蛋", "analyse.step": "平均执行 %.2f 步", "analyse.score": "平均得分 %.2f\n",
@@ -48,7 +48,7 @@ ZH_HK = {"lang.name": "ZH_HK", "lang.set.tip": "請選擇語言：\n[1] English\
          "error.bad_input": "\033[31m無效的輸入\033[0m\n", "error.game.floor.too_low": "那最好是下地獄去\n",
          "error.game.floor.one_to_one": "你從 1 樓丟下了雞蛋, 雞蛋落在了 1 樓, 重力勢能減少了 0 J\n",
          "error.game.floor.too_high": "那最好是上天堂去\n",
-         "egg.hello": "\033[32m丟雞蛋遊戲\033[0m\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n\n",
+         "egg.hello": "丟雞蛋遊戲\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n\n",
          "egg.help": "h|help 幫助\ns|start 開始遊戲\nr|query 查詢數據(遊戲內)\na|analyse 查詢統計數據\nc|cls 清屏\nq|quit 退出\nl|language 語言\n",
          "egg.help.short": "s|start 開始遊戲\nh|help 幫助\n", "analyse.game": "共贏得 %d/%d 盤遊戲",
          "analyse.egg": "共損失 %d/%d 個雞蛋", "analyse.step": "平均執行 %.2f 步", "analyse.score": "平均得分 %.2f\n",
@@ -60,7 +60,7 @@ ZH_HK = {"lang.name": "ZH_HK", "lang.set.tip": "請選擇語言：\n[1] English\
          "game.result.unbroken": "雞蛋沒碎\n", "game.query": "樓層總高: %d\n剩餘雞蛋: %d / %d\n當前樓層區間: %d ~ %d",
          "game.win": "恭喜你贏得了遊戲\n", "game.fail": "雞蛋沒了, 遊戲結束\n",
          "game.score": "遊戲得分: %.2f(%s)\n平均得分: %.2f\n嘗試了 %d 次\n摔破了 %d/%d 個雞蛋\n\n"}
-lang = ZH_CN
+lang = EN
 
 FILE_DATA = 'egg.data'
 
@@ -118,6 +118,7 @@ def initialize():
             with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream2:
                 file_data_stream2.write(lang["lang.name"] + '\n')
                 file_data_stream2.write('0\n0\n0\n0\n0\n0.00\n')
+    cls()
 
 
 def get_data():
