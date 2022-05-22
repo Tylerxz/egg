@@ -103,22 +103,21 @@ def get_lang(force):
 
 def initialize():
     global lang
-    flag = False
     if not os.path.exists(FILE_DATA):
-        flag = True
-    with open(FILE_DATA, mode='r', encoding='utf-8') as file_data_stream:
-        try:
-            lang = globals()[file_data_stream.readline()[:-1]]
-        except KeyError:
-            flag = True
-        finally:
-            file_data_stream.close()
-    if flag:
         get_lang(True)
         with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream:
             file_data_stream.write(lang["lang.name"] + '\n')
             file_data_stream.write('0\n0\n0\n0\n0\n0.00\n')
             file_data_stream.close()
+    with open(FILE_DATA, mode='r', encoding='utf-8') as file_data_stream:
+        try:
+            lang = globals()[file_data_stream.readline()[:-1]]
+        except KeyError:
+            file_data_stream.close()
+            get_lang(True)
+            with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream2:
+                file_data_stream2.write(lang["lang.name"] + '\n')
+                file_data_stream2.write('0\n0\n0\n0\n0\n0.00\n')
 
 
 def get_data():
