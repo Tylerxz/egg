@@ -238,7 +238,6 @@ def game():
         if score_distance < 0:
             score_distance = 0
         score = score_egg + score_floor + score_distance
-        print("DEBUG#203: {} {} {}".format(score_egg, score_floor, score_distance))
         print(lang["game.win"])
     else:
         score = 0
