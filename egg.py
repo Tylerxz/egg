@@ -9,22 +9,25 @@ import math
 import os
 import random
 
-VERSION = "1.0.9 beta"
+VERSION = "1.1.0 beta"
+VERSION_DATE = "2022.5.31"
 
 EN = {"lang.name": "EN", "lang.set.tip": "Choose a language：\n[1] English\n[2] 简体中文\n[3] 繁體中文\n",
-      "error.file.no_permission": "\033[31mERROR: no file permission, please check file path, or set 'FILE_DATA'as "
-                                  "'D:/egg.data'\033[0m\n",
+      "error.file.no_permission": "\033[31mERROR: no file permission, please check file path, or set 'PATH' as "
+                                  "'D:/'\033[0m\n",
       "error.bad_input": "Invalid input\n", "error.game.floor.too_low": "Then better go to hell\n",
       "error.game.floor.one_to_one": "You dropped the egg from the 1st floor, the egg landed on the 1st floor, "
                                      "the gravitational potential energy decreased by 0 J\n",
       "error.game.floor.too_high": "It's better to go to heaven\n",
       "error.game.score_too_high": "\033[31mERROR: score too high! Please hand on an issue at Github\033[0m\n",
-      "egg.hello": "Egg Throwing Game\nAuthor: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\nVersion: " +
-                   VERSION + "\n\n",
+      "egg.hello": "Egg Throwing Game\nAuthor: Bluemangoo\nVersion: " + VERSION + " (" + VERSION_DATE + ")\n\n",
       "egg.help": "h | help -- help\ns | start -- start game\nr | query -- query data (in-game)\na | analyse -- query "
-                  "statistics\nc | cls -- clear screen\nq | quit -- quit\nl | language -- language\n",
-      "egg.help.short": "s|start start game\nh|help help\n", "analyse.game": "Win %d/%d games in total",
+                  "statistics\nc | cls -- clear screen\nq | quit -- quit\nl | language -- language\n"
+                  "b | about -- about\n",
+      "egg.help.short": "s | start -- start game\nh | help -- help\n", "analyse.game": "Win %d/%d games in total",
       "analyse.egg": "Total %d/%d eggs lost", "analyse.step": "Average performed %.2f steps",
+      "egg.about": "Egg Throwing Game\nAuthor: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n"
+                   "Version: " + VERSION + "\nRelease Date: " + VERSION_DATE + "\n",
       "analyse.score": "Average score %.2f\n",
       "game.intro": "There is a building of %d floor, and you have %d identical eggs in your hands.\nThese eggs are "
                     "so tough that they can withstand relatively large shocks.\n "
@@ -39,18 +42,21 @@ EN = {"lang.name": "EN", "lang.set.tip": "Choose a language：\n[1] English\n[2]
       "game.result.unbroken": "Egg is not broken\n",
       "game.query": "Total floor height: %d\nRemaining eggs: %d / %d\nCurrent floor interval: %d ~ %d\n",
       "game.win": "Congratulations on winning the game\n", "game.fail": "The egg is gone, the game is over\n",
-      "game.score": "Game Score: %.2f(%s)\nAverage Score: %.2f\nTried %d times\nBreak %d/%d eggs\n\n"}
+      "game.score": "Game Score: %.2f(%s)\nAverage Score: %.2f\nTried %d times\nBreak %d/%d eggs\n\n",
+      "game.high": "High score! Input your name: "}
 ZH_CN = {"lang.name": "ZH_CN", "lang.set.tip": "请选择语言：\n[1] English\n[2] 简体中文\n[3] 繁體中文\n",
-         "error.file.no_permission": "\033[31m无文件权限, 请检查文件位置, 或将'FILE_DATA'的值修改为'D:/egg.data'\033[0m\n",
+         "error.file.no_permission": "\033[31m无文件权限, 请检查文件位置, 或将 'PATH' 的值修改为'D:/'\033[0m\n",
          "error.bad_input": "无效的输入\n", "error.game.floor.too_low": "那最好是下地狱去\n",
          "error.game.floor.one_to_one": "你从 1 楼丢下了鸡蛋, 鸡蛋落在了 1 楼, 重力势能减少了 0 J\n",
          "error.game.floor.too_high": "那最好是上天堂去\n",
          "error.game.score_too_high": "\033[31mERROR: 过高的分数, 请联系开发者\033[0m\n",
-         "egg.hello": "丢鸡蛋游戏\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n版本: " + VERSION + "\n\n",
+         "egg.hello": "丢鸡蛋游戏\n作者: Bluemangoo\n版本: " + VERSION + " (" + VERSION_DATE + ")\n\n",
          "egg.help": "h | help -- 帮助\ns | start -- 开始游戏\nr | query -- 查询数据(游戏内)\na | analyse -- 查询统计数据\n"
-                     "c | cls -- 清屏\nq | quit -- 退出\nl | language -- 语言\n",
-         "egg.help.short": "s|start 开始游戏\nh|help 帮助\n", "analyse.game": "共赢得 %d/%d 盘游戏",
+                     "c | cls -- 清屏\nq | quit -- 退出\nl | language -- 语言\nb | about -- 关于\n",
+         "egg.help.short": "s | start -- 开始游戏\nh | help -- 帮助\n", "analyse.game": "共赢得 %d/%d 盘游戏",
          "analyse.egg": "共损失 %d/%d 个鸡蛋", "analyse.step": "平均执行 %.2f 步", "analyse.score": "平均得分 %.2f\n",
+         "egg.about": "丢鸡蛋游戏\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n版本: " + VERSION + "\n"
+                      "发布日期: " + VERSION_DATE + "\n",
          "game.intro": "有一座 %d 层高的大楼, 你手上有 %d 个一模一样的鸡蛋.\n这些鸡蛋非常坚韧, 以致于可以承受比较大的冲击.\n"
                        "从低层落下去不会摔破, 但在一定层数以上会.\n请你通过实验找出这个刚好能使鸡蛋摔破的层数\n\n"
                        "假设这个鸡蛋在49层摔下去不会破, 但是在50层就会.\n"
@@ -58,18 +64,21 @@ ZH_CN = {"lang.name": "ZH_CN", "lang.set.tip": "请选择语言：\n[1] English\
          "game.get_floor": "请输入猜测的层数(2~%d): ", "game.result.broken": "鸡蛋碎了, 你还有 %d 个蛋, 请你珍惜\n",
          "game.result.unbroken": "鸡蛋没碎\n", "game.query": "楼层总高: %d\n剩余鸡蛋: %d / %d\n当前楼层区间: %d ~ %d\n",
          "game.win": "恭喜你赢得了游戏\n", "game.fail": "鸡蛋没了, 游戏结束\n",
-         "game.score": "游戏得分: %.2f(%s)\n平均得分: %.2f\n尝试了 %d 次\n摔破了 %d/%d 个鸡蛋\n\n"}
+         "game.score": "游戏得分: %.2f(%s)\n平均得分: %.2f\n尝试了 %d 次\n摔破了 %d/%d 个鸡蛋\n\n",
+         "game.high": "高分! 请输入名字: "}
 ZH_HK = {"lang.name": "ZH_HK", "lang.set.tip": "請選擇語言：\n[1] English\n[2] 简体中文\n[3] 繁體中文\n",
-         "error.file.no_permission": "\033[31m無文件權限, 請檢查文件位置, 或將'FILE_DATA'的值修改為'D:/egg.data'\033[0m\n",
+         "error.file.no_permission": "\033[31m無文件權限, 請檢查文件位置, 或將 'PATH' 的值修改為'D:/'\033[0m\n",
          "error.bad_input": "無效的輸入\n", "error.game.floor.too_low": "那最好是下地獄去\n",
          "error.game.floor.one_to_one": "你從 1 樓丟下了雞蛋, 雞蛋落在了 1 樓, 重力勢能減少了 0 J\n",
          "error.game.floor.too_high": "那最好是上天堂去\n",
          "error.game.score_too_high": "\033[31mERROR: 過高的分數, 請聯繫開發者\033[0m\n",
-         "egg.hello": "丟雞蛋遊戲\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n版本: " + VERSION + "\n\n",
+         "egg.hello": "丟雞蛋遊戲\n作者: Bluemangoo\n版本: " + VERSION + " (" + VERSION_DATE + ")\n\n",
          "egg.help": "h | help -- 幫助\ns | start -- 開始遊戲\nr | query -- 查詢數據(遊戲內)\na | analyse -- 查詢統計數據\n"
-                     "c | cls -- 清屏\nq | quit -- 退出\nl|language 語言\n",
-         "egg.help.short": "s|start 開始遊戲\nh|help 幫助\n", "analyse.game": "共贏得 %d/%d 盤遊戲",
+                     "c | cls -- 清屏\nq | quit -- 退出\nl|language 語言\nb | about -- 關於\n",
+         "egg.help.short": "s | start -- 開始遊戲\nh | help -- 幫助\n", "analyse.game": "共贏得 %d/%d 盤遊戲",
          "analyse.egg": "共損失 %d/%d 個雞蛋", "analyse.step": "平均執行 %.2f 步", "analyse.score": "平均得分 %.2f\n",
+         "egg.about": "丟雞蛋遊戲\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n版本: " + VERSION + "\n"
+                      "發布日期: " + VERSION_DATE + "\n",
          "game.intro": "有一座 %d 層高的大樓, 你手上有 %d 個一模一樣的雞蛋.\n這些雞蛋非常堅韌, 以致於可以承受比較大的衝擊.\n"
                        "從低層落下去不會摔破, 但在一定層數以上會.\n請你通過實驗找出這個剛好能使雞蛋摔破的層數\n\n"
                        "假設這個雞蛋在49層摔下去不會破, 但是在50層就會.\n"
@@ -77,11 +86,16 @@ ZH_HK = {"lang.name": "ZH_HK", "lang.set.tip": "請選擇語言：\n[1] English\
          "game.get_floor": "請輸入猜測的層數(2~%d): ", "game.result.broken": "雞蛋碎了, 你還有 %d 個蛋, 請你珍惜\n",
          "game.result.unbroken": "雞蛋沒碎\n", "game.query": "樓層總高: %d\n剩餘雞蛋: %d / %d\n當前樓層區間: %d ~ %d\n",
          "game.win": "恭喜你贏得了遊戲\n", "game.fail": "雞蛋沒了, 遊戲結束\n",
-         "game.score": "遊戲得分: %.2f(%s)\n平均得分: %.2f\n嘗試了 %d 次\n摔破了 %d/%d 個雞蛋\n\n"}
+         "game.score": "遊戲得分: %.2f(%s)\n平均得分: %.2f\n嘗試了 %d 次\n摔破了 %d/%d 個雞蛋\n\n",
+         "game.high": "高分! 請輸入名字: "}
 
 lang = EN
 
-FILE_DATA = 'egg.data'
+PATH = ''
+FILE_DATA = PATH + 'egg.data'
+FILE_VERSION = PATH + 'egg.version'
+FILE_DB = PATH + 'egg.db'
+FILE_HIGH_SCORE = PATH + 'egg.high'
 
 SCORE_K: float = 1.87822326638464
 
@@ -127,16 +141,26 @@ def initialize():
         with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream:
             file_data_stream.write(lang["lang.name"] + '\n')
             file_data_stream.write('0\n0\n0\n0\n0\n0.00\n')
-            file_data_stream.close()
+        with open(FILE_VERSION, mode='w', encoding='utf-8') as file_version_stream:
+            file_version_stream.write(VERSION + '\n')
+        with open(FILE_DB, mode='w', encoding='utf-8') as file_db_stream:
+            file_db_stream.write('\n')
+        with open(FILE_HIGH_SCORE, mode='w', encoding='utf-8') as file_high_score_stream:
+            file_high_score_stream.write('\n')
     with open(FILE_DATA, mode='r', encoding='utf-8') as file_data_stream:
         try:
             lang = globals()[file_data_stream.readline()[:-1]]
         except KeyError:
-            file_data_stream.close()
             get_lang(True)
             with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream2:
                 file_data_stream2.write(lang["lang.name"] + '\n')
                 file_data_stream2.write('0\n0\n0\n0\n0\n0.00\n')
+            with open(FILE_VERSION, mode='w', encoding='utf-8') as file_version_stream:
+                file_version_stream.write(VERSION + '\n')
+            with open(FILE_DB, mode='w', encoding='utf-8') as file_db_stream:
+                file_db_stream.write('\n')
+            with open(FILE_HIGH_SCORE, mode='w', encoding='utf-8') as file_high_score_stream:
+                file_high_score_stream.write('\n')
     cls()
 
 
@@ -155,7 +179,6 @@ def get_data():
         egg_remain_global = int(file_data_stream.readline()[:-1])
         step_used_global = int(file_data_stream.readline()[:-1])
         score_global = float(file_data_stream.readline()[:-1])
-        file_data_stream.close()
 
 
 def set_data(game_count, game_win, egg_all, egg_remain, step_used, score):
@@ -165,8 +188,37 @@ def set_data(game_count, game_win, egg_all, egg_remain, step_used, score):
             file_data_stream.write(
                 '%d\n%d\n%d\n%d\n%d\n%.2f\n' % (game_count, game_win, egg_all, egg_remain, step_used, score))
         except PermissionError:
-            print()
-        file_data_stream.close()
+            print(lang["error.file.no_permission"])
+
+
+def set_db(score):
+    with open(FILE_DB, mode='a', encoding='utf-8') as file_db_stream:
+        try:
+            file_db_stream.write('%.2f\n' % score)
+        except PermissionError:
+            print(lang["error.file.no_permission"])
+
+
+def get_high_five():
+    high_five = []
+    with open(FILE_DB, mode='r', encoding='utf-8') as file_db_stream:
+        try:
+            for i in range(5):
+                high_five.append([float(file_db_stream.readline()[:-1]), file_db_stream.readline()[:-1]])
+        except KeyError:
+            return high_five
+        except ValueError:
+            return high_five
+    return high_five
+
+
+def set_high_five(high_five):
+    with open(FILE_HIGH_SCORE, mode='w', encoding='utf-8') as file_high_score_stream:
+        try:
+            for line in high_five:
+                file_high_score_stream.write("%.2f\n%s" % (line[0], line[1]))
+        except PermissionError:
+            print(lang["error.file.no_permission"])
 
 
 def egg_hello():
@@ -189,6 +241,10 @@ def egg_analyse():
         print(lang["analyse.score"] % 0)
 
 
+def egg_about():
+    print(lang["egg.about"])
+
+
 def game():
     cls()
     floor_all: int = random.randint(10, 500)
@@ -201,6 +257,7 @@ def game():
     step_now: int = 0
     distance: int = 0
     win: bool = False
+    high: bool = False
 
     print(lang["game.intro"] % (floor_all, egg_all))
     while True:
@@ -260,13 +317,20 @@ def game():
         if score_distance < 0:
             score_distance = 0
         score = score_egg + score_floor + score_distance
+        score = round(score, 2)
         print(lang["game.win"])
+
+        high_five = get_high_five()
+        for line in high_five:
+            if score > line[0]:
+                high = True
     else:
         score = 0
         print(lang["game.fail"])
     get_data()
     set_data(game_count_global + 1, game_win_global + win, egg_all_global + egg_all, egg_remain_global + egg_now,
              step_used_global + step_now, score_global + score)
+    set_db(score)
     grade: str
     if score > 100:
         grade = 'E'
@@ -275,18 +339,35 @@ def game():
         exit(-1)
     elif score == 100:
         grade = 'V'
-    elif score > 95:
+    elif score >= 95:
         grade = 'S'
-    elif score > 90:
+    elif score >= 90:
         grade = 'A'
-    elif score > 70:
+    elif score >= 70:
         grade = 'B'
-    elif score > 50:
+    elif score >= 50:
         grade = 'C'
     else:
         grade = 'F'
     get_data()
-    print(lang["game.score"] % (score, grade, score_global / game_win_global, step_now, egg_all - egg_now, egg_all))
+    if game_win_global == 0:
+        print(lang["game.score"] % (score, grade, 0, step_now, egg_all - egg_now, egg_all))
+    else:
+        print(lang["game.score"] % (score, grade, score_global / game_win_global, step_now, egg_all - egg_now, egg_all))
+    if high:
+        name = input(lang["game.high"])
+        high_five = get_high_five()
+        if len(high_five) < 5:
+            high_five.append([score, name])
+        else:
+            low_score = 101
+            low = -1
+            for i in range(4):
+                if high_five[i][0] < low_score:
+                    low_score = high_five[i][0]
+                    low = i
+            high_five[low] = [score, name]
+        set_high_five(high_five)
 
 
 def main():
@@ -308,6 +389,8 @@ def main():
             get_data()
             set_data(game_count_global, game_win_global, egg_all_global, egg_remain_global, step_used_global,
                      score_global)
+        elif inp == "b" or inp == "about":
+            egg_about()
         elif inp == "q" or inp == "quit":
             break
         else:
