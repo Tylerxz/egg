@@ -3,7 +3,7 @@
 @Date: 2022.05
 @Copyright: 2022 Bluemangoo. All rights reserved.
 @Description: A game
-@version: 1.0.9 beta
+@version: 1.1.0 beta
 """
 import math
 import os
