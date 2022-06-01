@@ -94,7 +94,7 @@ lang = EN
 PATH = ''
 FILE_DATA = PATH + 'egg.data'
 FILE_VERSION = PATH + 'egg.version'
-FILE_DB = PATH + 'egg.db'
+FILE_DB = PATH + 'egg.edb'
 FILE_HIGH_SCORE = PATH + 'egg.high'
 
 SCORE_K: float = 1.87822326638464
@@ -158,7 +158,7 @@ def initialize():
             with open(FILE_VERSION, mode='w', encoding='utf-8') as file_version_stream:
                 file_version_stream.write(VERSION + '\n')
             with open(FILE_DB, mode='w', encoding='utf-8') as file_db_stream:
-                file_db_stream.write('\n')
+                file_db_stream.write('')
             with open(FILE_HIGH_SCORE, mode='w', encoding='utf-8') as file_high_score_stream:
                 file_high_score_stream.write('\n')
     cls()
@@ -194,7 +194,6 @@ def set_data(game_count, game_win, egg_all, egg_remain, step_used, score):
 def set_db(score):
     with open(FILE_DB, mode='a', encoding='utf-8') as file_db_stream:
         try:
-            file_high_score_stream.seek(-1,1)
             file_db_stream.write('%.2f\n' % score)
         except PermissionError:
             print(lang["error.file.no_permission"])
