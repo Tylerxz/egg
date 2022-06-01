@@ -3,14 +3,14 @@
 @Date: 2022.05
 @Copyright: 2022 Bluemangoo. All rights reserved.
 @Description: A game
-@version: 1.1.0 beta
+@version: 1.1.1 dev
 """
 import math
 import os
 import random
 
-VERSION = "1.1.0 beta"
-VERSION_DATE = "2022.5.31"
+VERSION = "1.1.1 dev"
+VERSION_DATE = "2022.6.1"
 
 EN = {"lang.name": "EN", "lang.set.tip": "Choose a language：\n[1] English\n[2] 简体中文\n[3] 繁體中文\n",
       "error.file.no_permission": "\033[31mERROR: no file permission, please check file path, or set 'PATH' as "
@@ -194,6 +194,7 @@ def set_data(game_count, game_win, egg_all, egg_remain, step_used, score):
 def set_db(score):
     with open(FILE_DB, mode='a', encoding='utf-8') as file_db_stream:
         try:
+            file_high_score_stream.seek(-1,1)
             file_db_stream.write('%.2f\n' % score)
         except PermissionError:
             print(lang["error.file.no_permission"])
@@ -306,11 +307,11 @@ def game():
 
     score: float
     if win:
-        score_egg: int = (egg_now + 1) * 5
-        score_floor_all: float = (100 - 5 * egg_all) * 0.8
+        score_egg: int = (egg_now + 1) * 3
+        score_floor_all: float = (100 - 3 * egg_all) * 0.8
         score_floor_tmp: float = (1 + (SCORE_K / (egg_all * (pow(floor_all, 1 / egg_all) - 1) - 1)) * (step_now - 2))
         score_floor: float = (math.e - pow(1 + 1 / score_floor_tmp, score_floor_tmp)) * (score_floor_all / (math.e - 2))
-        score_distance_all: float = (100 - 5 * egg_all) * 0.2
+        score_distance_all: float = (100 - 3 * egg_all) * 0.2
         score_distance: float = score_distance_all
         if distance > floor_all:
             score_distance -= (distance - floor_all) // (floor_all * 0.05)
