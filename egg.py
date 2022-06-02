@@ -8,9 +8,11 @@
 import math
 import os
 import random
+from shutil import copyfile
 
 VERSION = "1.1.1 dev"
 VERSION_DATE = "2022.6.1"
+DATA_COMPATIBLE_LATEST = [1, 1, 0]
 
 EN = {"lang.name": "EN", "lang.set.tip": "Choose a language：\n[1] English\n[2] 简体中文\n[3] 繁體中文\n",
       "error.file.no_permission": "\033[31mERROR: no file permission, please check file path, or set 'PATH' as "
@@ -56,7 +58,7 @@ ZH_CN = {"lang.name": "ZH_CN", "lang.set.tip": "请选择语言：\n[1] English\
          "egg.help.short": "s | start -- 开始游戏\nh | help -- 帮助\n", "analyse.game": "共赢得 %d/%d 盘游戏",
          "analyse.egg": "共损失 %d/%d 个鸡蛋", "analyse.step": "平均执行 %.2f 步", "analyse.score": "平均得分 %.2f\n",
          "egg.about": "丢鸡蛋游戏\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n版本: " + VERSION + "\n"
-                      "发布日期: " + VERSION_DATE + "\n",
+                                                                                                           "发布日期: " + VERSION_DATE + "\n",
          "game.intro": "有一座 %d 层高的大楼, 你手上有 %d 个一模一样的鸡蛋.\n这些鸡蛋非常坚韧, 以致于可以承受比较大的冲击.\n"
                        "从低层落下去不会摔破, 但在一定层数以上会.\n请你通过实验找出这个刚好能使鸡蛋摔破的层数\n\n"
                        "假设这个鸡蛋在49层摔下去不会破, 但是在50层就会.\n"
@@ -78,7 +80,7 @@ ZH_HK = {"lang.name": "ZH_HK", "lang.set.tip": "請選擇語言：\n[1] English\
          "egg.help.short": "s | start -- 開始遊戲\nh | help -- 幫助\n", "analyse.game": "共贏得 %d/%d 盤遊戲",
          "analyse.egg": "共損失 %d/%d 個雞蛋", "analyse.step": "平均執行 %.2f 步", "analyse.score": "平均得分 %.2f\n",
          "egg.about": "丟雞蛋遊戲\n作者: Bluemangoo\nGithub: https://github.com/Bluemangoo/egg\n版本: " + VERSION + "\n"
-                      "發布日期: " + VERSION_DATE + "\n",
+                                                                                                           "發布日期: " + VERSION_DATE + "\n",
          "game.intro": "有一座 %d 層高的大樓, 你手上有 %d 個一模一樣的雞蛋.\n這些雞蛋非常堅韌, 以致於可以承受比較大的衝擊.\n"
                        "從低層落下去不會摔破, 但在一定層數以上會.\n請你通過實驗找出這個剛好能使雞蛋摔破的層數\n\n"
                        "假設這個雞蛋在49層摔下去不會破, 但是在50層就會.\n"
@@ -91,11 +93,17 @@ ZH_HK = {"lang.name": "ZH_HK", "lang.set.tip": "請選擇語言：\n[1] English\
 
 lang = EN
 
-PATH = ''
-FILE_DATA = PATH + 'egg.data'
-FILE_VERSION = PATH + 'egg.version'
-FILE_DB = PATH + 'egg.edb'
-FILE_HIGH_SCORE = PATH + 'egg.high'
+PATH = './egg/'
+
+FILE_DATA_FILENAME = 'egg.data'
+FILE_VERSION_FILENAME = 'egg.version'
+FILE_EDB_FILENAME = 'egg.edb'
+FILE_LEADERBOARD_FILENAME = 'egg.leaderboard'
+
+FILE_DATA = PATH + FILE_DATA_FILENAME
+FILE_VERSION = PATH + FILE_VERSION_FILENAME
+FILE_EDB = PATH + FILE_EDB_FILENAME
+FILE_LEADERBOARD = PATH + FILE_LEADERBOARD_FILENAME
 
 SCORE_K: float = 1.87822326638464
 
@@ -134,19 +142,13 @@ def get_lang(force):
                 cls()
 
 
-def initialize():
+def initialize_data():
     global lang
     if not os.path.exists(FILE_DATA):
         get_lang(True)
         with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream:
             file_data_stream.write(lang["lang.name"] + '\n')
             file_data_stream.write('0\n0\n0\n0\n0\n0.00\n')
-        with open(FILE_VERSION, mode='w', encoding='utf-8') as file_version_stream:
-            file_version_stream.write(VERSION + '\n')
-        with open(FILE_DB, mode='w', encoding='utf-8') as file_db_stream:
-            file_db_stream.write('\n')
-        with open(FILE_HIGH_SCORE, mode='w', encoding='utf-8') as file_high_score_stream:
-            file_high_score_stream.write('\n')
     with open(FILE_DATA, mode='r', encoding='utf-8') as file_data_stream:
         try:
             lang = globals()[file_data_stream.readline()[:-1]]
@@ -155,13 +157,97 @@ def initialize():
             with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream2:
                 file_data_stream2.write(lang["lang.name"] + '\n')
                 file_data_stream2.write('0\n0\n0\n0\n0\n0.00\n')
-            with open(FILE_VERSION, mode='w', encoding='utf-8') as file_version_stream:
-                file_version_stream.write(VERSION + '\n')
-            with open(FILE_DB, mode='w', encoding='utf-8') as file_db_stream:
-                file_db_stream.write('')
-            with open(FILE_HIGH_SCORE, mode='w', encoding='utf-8') as file_high_score_stream:
-                file_high_score_stream.write('\n')
-    cls()
+
+
+def initialize_version():
+    if not os.path.exists(FILE_VERSION):
+        with open(FILE_VERSION, mode='w', encoding='utf-8') as file_version_stream:
+            file_version_stream.write(VERSION + '\n')
+    with open(FILE_VERSION, mode='r', encoding='utf-8') as file_version_stream:
+        try:
+            ver_in_file_str = file_version_stream.readline()[:-1]
+            ver_in_file = []
+            tmp = ''
+            for bite in ver_in_file_str:
+                if bite == '.' or bite == ' ':
+                    ver_in_file.append(int(tmp))
+                    tmp = ''
+                else:
+                    tmp += bite
+            compatible = True
+            for i in range(0, 3):
+                if ver_in_file[i] < DATA_COMPATIBLE_LATEST[i]:
+                    compatible = False
+                    break
+                if ver_in_file[i] > DATA_COMPATIBLE_LATEST[i]:
+                    break
+                print()
+            if not compatible:
+                backup_path = PATH + 'backup/' + ver_in_file_str + '/'
+                # if not os.path.exists(backup_path):
+                #     os.makedirs(backup_path)
+                # with open(backup_path+FILE_DATA_FILENAME, mode='w', encoding='utf-8') as f:
+                #     f.write('')
+                # with open(backup_path+FILE_EDB_FILENAME, mode='w', encoding='utf-8') as f:
+                #     f.write('')
+                # with open(backup_path+FILE_LEADERBOARD_FILENAME, mode='w', encoding='utf-8') as f:
+                #     f.write('')
+                try:
+                    os.remove(backup_path+FILE_DATA_FILENAME)
+                except FileNotFoundError:
+                    pass
+                try:
+                    os.remove(backup_path+FILE_EDB_FILENAME)
+                except FileNotFoundError:
+                    pass
+                try:
+                    os.remove(backup_path+FILE_LEADERBOARD_FILENAME)
+                except FileNotFoundError:
+                    pass
+                try:
+                    os.replace(FILE_DATA, backup_path+FILE_DATA_FILENAME)
+                except FileNotFoundError:
+                    pass
+                try:
+                    os.replace(FILE_EDB, backup_path+FILE_EDB_FILENAME)
+                except FileNotFoundError:
+                    pass
+                try:
+                    os.replace(FILE_LEADERBOARD, backup_path+FILE_LEADERBOARD_FILENAME)
+                except FileNotFoundError:
+                    pass
+                with open(FILE_DATA, mode='w', encoding='utf-8') as file_data_stream:
+                    file_data_stream.write(lang["lang.name"] + '\n')
+                    file_data_stream.write('0\n0\n0\n0\n0\n0.00\n')
+            with open(FILE_VERSION, mode='w', encoding='utf-8') as file_version_stream2:
+                file_version_stream2.write(VERSION + '\n')
+        except KeyError:
+            with open(FILE_DATA, mode='w', encoding='utf-8') as file_version_stream2:
+                file_version_stream2.write(VERSION + '\n')
+
+
+def initialize_edb():
+    if not os.path.exists(FILE_EDB):
+        with open(FILE_EDB, mode='w', encoding='utf-8') as file_edb_stream:
+            file_edb_stream.write('')
+
+
+def initialize_leaderboard():
+    if not os.path.exists(FILE_LEADERBOARD):
+        with open(FILE_LEADERBOARD, mode='w', encoding='utf-8') as file_leaderboard_stream:
+            file_leaderboard_stream.write('')
+
+
+def initialize():
+    try:
+        if not os.path.exists(PATH):
+            os.makedirs(PATH)
+        initialize_data()
+        initialize_version()
+        initialize_edb()
+        initialize_leaderboard()
+    except PermissionError:
+        print(lang["error.file.no_permission"])
 
 
 def get_data():
@@ -192,7 +278,7 @@ def set_data(game_count, game_win, egg_all, egg_remain, step_used, score):
 
 
 def set_db(score):
-    with open(FILE_DB, mode='a', encoding='utf-8') as file_db_stream:
+    with open(FILE_EDB, mode='a', encoding='utf-8') as file_db_stream:
         try:
             file_db_stream.write('%.2f\n' % score)
         except PermissionError:
@@ -201,7 +287,7 @@ def set_db(score):
 
 def get_high_five():
     high_five = []
-    with open(FILE_DB, mode='r', encoding='utf-8') as file_db_stream:
+    with open(FILE_EDB, mode='r', encoding='utf-8') as file_db_stream:
         try:
             for i in range(5):
                 high_five.append([float(file_db_stream.readline()[:-1]), file_db_stream.readline()[:-1]])
@@ -213,7 +299,7 @@ def get_high_five():
 
 
 def set_high_five(high_five):
-    with open(FILE_HIGH_SCORE, mode='w', encoding='utf-8') as file_high_score_stream:
+    with open(FILE_LEADERBOARD, mode='w', encoding='utf-8') as file_high_score_stream:
         try:
             for line in high_five:
                 file_high_score_stream.write("%.2f\n%s" % (line[0], line[1]))
