@@ -3,15 +3,14 @@
 @Date: 2022.05
 @Copyright: 2022 Bluemangoo. All rights reserved.
 @Description: A game
-@version: 1.1.1 dev
+@version: 1.1.2 dev
 """
 import math
 import os
 import random
-from shutil import copyfile
 
-VERSION = "1.1.1 dev"
-VERSION_DATE = "2022.6.1"
+VERSION = "1.1.2 dev"
+VERSION_DATE = "2022.6.2"
 DATA_COMPATIBLE_LATEST = [1, 1, 0]
 
 EN = {"lang.name": "EN", "lang.set.tip": "Choose a language：\n[1] English\n[2] 简体中文\n[3] 繁體中文\n",
@@ -184,14 +183,6 @@ def initialize_version():
                 print()
             if not compatible:
                 backup_path = PATH + 'backup/' + ver_in_file_str + '/'
-                # if not os.path.exists(backup_path):
-                #     os.makedirs(backup_path)
-                # with open(backup_path+FILE_DATA_FILENAME, mode='w', encoding='utf-8') as f:
-                #     f.write('')
-                # with open(backup_path+FILE_EDB_FILENAME, mode='w', encoding='utf-8') as f:
-                #     f.write('')
-                # with open(backup_path+FILE_LEADERBOARD_FILENAME, mode='w', encoding='utf-8') as f:
-                #     f.write('')
                 try:
                     os.remove(backup_path+FILE_DATA_FILENAME)
                 except FileNotFoundError:
