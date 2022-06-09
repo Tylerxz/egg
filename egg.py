@@ -123,41 +123,43 @@ score_global: float
 
 
 
+flag = True
+if flag:
+    root = Tk()
+    root.title(lang["lang.set.tip"])
+    lb = Label(root)
+    lb.pack()
 
-root = Tk()
-root.title(lang["lang.set.tip"])
-lb = Label(root)
-lb.pack()
+    lb.config(text = lang["lang.set.tip"])
 
-lb.config(text = lang["lang.set.tip"])
+    var = IntVar()
+    rd1 = Radiobutton(root,text="English",variable=var,value=0)
+    rd1.pack()
 
-var = IntVar()
-rd1 = Radiobutton(root,text="English",variable=var,value=0)
-rd1.pack()
+    rd2 = Radiobutton(root,text="简体中文",variable=var,value=1)
+    rd2.pack()
 
-rd2 = Radiobutton(root,text="简体中文",variable=var,value=1)
-rd2.pack()
+    rd3 = Radiobutton(root,text="繁體中文",variable=var,value=2)
+    rd3.pack()
 
-rd3 = Radiobutton(root,text="繁體中文",variable=var,value=2)
-rd3.pack()
+    def close_window():
+        root.destroy()
+        flag = False
 
-def close_window():
-    root.destroy()
-
-btn1 = tkinter.Button(text = "确定", command = close_window)
-btn1.pack(fill=X)
+    btn1 = tkinter.Button(text = "确定", command = close_window)
+    btn1.pack(fill=X)
     
-root.mainloop()
+    root.mainloop()
 
-def get_lang(force):
-    dic = {0:'English',1:'简体中文',2:'繁體中文'}
-    a = dic.get(var.get())
-    if a == '1':
-        lang = EN
-    elif a == '2':
-        lang = ZH_CN
-    elif a == '3':
-        lang = ZH_HK
+    def get_lang(force):
+        dic = {0:'English',1:'简体中文',2:'繁體中文'}
+        a = dic.get(var.get())
+        if a == '1':
+            lang = EN
+        elif a == '2':
+            lang = ZH_CN
+        elif a == '3':
+            lang = ZH_HK
 
 def print_window(*args, sep=' ', end='\n', file=None):
     print(*args, sep=sep, end=end, file=file)
