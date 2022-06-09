@@ -3,7 +3,7 @@
 @Date: 2022.05
 @Copyright: 2022 Bluemangoo,Tylerxz. All rights reserved.
 @Description: A game
-@version: 1.2.0 beta
+@version: 1.2.1 beta
 """
 from tkinter import *
 import math
@@ -12,7 +12,7 @@ import random
 from tkinter import messagebox
 import tkinter
 
-VERSION = "1.2.0 beta"
+VERSION = "1.2.1 beta"
 VERSION_DATE = "2022.6.8"
 DATA_COMPATIBLE_LATEST = [1, 1, 3]
 
